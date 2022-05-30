@@ -12,6 +12,8 @@ app.config['SECRET_KEY'] = os.urandom(24)
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 debug = DebugToolbarExtension(app)
 
+board = boggle_game.make_board()
+
 @app.route('/')
 def home_page():
     """
@@ -24,5 +26,6 @@ def home_page():
         ['Z', 'X', 'Z', 'J', 'T']
     ]
     """
-    board = boggle_game.make_board()
-    return render_template('home.html', board = board)
+    session['board'] = board
+
+    return render_template('home.html', board = session['board'])

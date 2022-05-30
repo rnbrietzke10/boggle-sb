@@ -1,5 +1,9 @@
 {% extends "base.html" %}{% block title %}Boggle{% endblock %} {% block content
 %}
+<form action="">
+  <input type="text" name="word" id="user-word" placeholder="Enter Word" />
+  <button class="btn">Sumbit</button>
+</form>
 <table id="board">
   {% for row in board %}
   <tr>
