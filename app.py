@@ -1,5 +1,6 @@
 import os
-from flask import Flask, render_template, request, redirect, flash, session
+import json
+from flask import Flask, render_template, request, redirect, flash, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 
 from boggle import Boggle
@@ -29,3 +30,16 @@ def home_page():
     session['board'] = board
 
     return render_template('home.html', board = session['board'])
+
+@app.route('/user-word', methods=['POST'])
+def user_word_check():
+    print(type(request.data))
+    print(request.get_json()['word'])
+    # dict_data = request.data.decode()
+    word = request.get_json()['word']
+    valid_word = boggle_game.check_valid_word(session['board'], word)
+    print(valid_word)
+    print(word)
+    return_data = {'result': valid_word}
+
+    return jsonify(return_data)
