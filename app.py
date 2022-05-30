@@ -14,4 +14,15 @@ debug = DebugToolbarExtension(app)
 
 @app.route('/')
 def home_page():
-    return "<h1>Boggle</h1>"
+    """
+    boggle_game.make_board() returns:
+    [
+        ['W', 'X', 'Y', 'C', 'R'],
+        ['W', 'P', 'B', 'L', 'U'],
+        ['Z', 'K', 'V', 'S', 'C'],
+        ['W', 'D', 'X', 'T', 'H'],
+        ['Z', 'X', 'Z', 'J', 'T']
+    ]
+    """
+    board = boggle_game.make_board()
+    return render_template('home.html', board = board)
