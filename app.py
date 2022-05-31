@@ -33,13 +33,11 @@ def home_page():
 
 @app.route('/user-word', methods=['POST'])
 def user_word_check():
-    print(type(request.data))
-    print(request.get_json()['word'])
+    # print(type(request.data))
+    # print(request.get_json()['word'])
     # dict_data = request.data.decode()
     word = request.get_json()['word']
     valid_word = boggle_game.check_valid_word(session['board'], word)
-    print(valid_word)
-    print(word)
     return_data = {'result': valid_word}
 
     return jsonify(return_data)
