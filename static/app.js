@@ -1,8 +1,12 @@
 const $submitBtn = $('#submit-word-btn');
 const $userWord = $('#user-word');
 let correctAnswer = '';
+$('#seconds-remaining').text(60);
+
+timeRemaining = parseInt($('#seconds-remaining').text());
 async function handleWordSubmit(evt) {
   evt.preventDefault();
+  console.log(timeRemaining);
   timer();
   console.log($userWord.val());
   correctAnswer = await sendWord();
@@ -61,11 +65,16 @@ function showAnswerMessage(obj) {
 }
 
 const timer = function () {
-  timeRemaining = parseInt($('#seconds-remaining').text());
-  setInterval(function () {
-    $('#seconds-remaining').text((timeRemaining -= 1));
+  const interval = setInterval(function () {
+    timeRemaining -= 1;
+    $('#seconds-remaining').text(timeRemaining);
+    if (timeRemaining === 0) {
+      clearInterval(interval);
+      $submitBtn.attr('disabled', true);
+    }
   }, 1000);
-  if (timeRemaining === 0) {
-    $submitBtn.attr('disabled', true);
-  }
+  // setTimeout(function () {
+  //   clearInterval(interval);
+  //   $submitBtn.attr('disabled', true);
+  // }, 60000);
 };

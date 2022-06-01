@@ -14,7 +14,7 @@ body {
   display: flex;
   margin-top: 100px;
   justify-content: space-evenly;
-  font-family: "Nunito", Arial, sans-serif;
+  font-family: 'Nunito', Arial, sans-serif;
   font-weight: 700;
   flex-wrap: wrap;
 }
@@ -30,13 +30,10 @@ h1 {
   height: 30%;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
-  /* justify-content: space-evenly; */
 }
 
 form {
   width: 325px;
-  /* margin-bottom: -30px; */
   background-color: #0080ff;
   color: #fbfcf8;
   height: 70px;
@@ -55,11 +52,27 @@ form {
   margin-left: 5px;
   padding: 5px 10px;
   border: none;
-  color: #0a4399;
-  background-color: #fbfcf8;
   border-radius: 5px;
   cursor: pointer;
   font-weight: 700;
+}
+
+.btn-primary {
+  color: #0a4399;
+  background-color: #fbfcf8;
+}
+
+.btn-secondary {
+  color: #fbfcf8;
+  background-color: #0a4399;
+  width: 150px;
+  height: 50px;
+  margin-top: 20px;
+}
+
+#timer {
+  margin-top: 50px;
+  font-size: 1.75rem;
 }
 
 #board {
@@ -94,7 +107,7 @@ td {
 h2 {
   margin-top: 50px;
 }
-@media only screen and (max-width: 1014px) {
+@media only screen and (max-width: 1125px) {
   .container {
     margin-top: 10px;
   }
