@@ -13,7 +13,7 @@ app.config['SECRET_KEY'] = os.urandom(24)
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 debug = DebugToolbarExtension(app)
 
-board = boggle_game.make_board()
+
 
 @app.route('/')
 def home_page():
@@ -27,17 +27,22 @@ def home_page():
         ['Z', 'X', 'Z', 'J', 'T']
     ]
     """
+    board = boggle_game.make_board()
     session['board'] = board
 
     return render_template('home.html', board = session['board'])
 
 @app.route('/user-word', methods=['POST'])
 def user_word_check():
-    # print(type(request.data))
-    # print(request.get_json()['word'])
-    # dict_data = request.data.decode()
     word = request.get_json()['word']
     valid_word = boggle_game.check_valid_word(session['board'], word)
     return_data = {'result': valid_word}
 
     return jsonify(return_data)
+
+@app.route('/player-data', methods=['POST'])
+def player_data():
+    session['board'] = boggle_game.make_board()
+    player_info = request.get_json()
+    print(player_info)
+    return redirect('/')

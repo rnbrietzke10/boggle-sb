@@ -1,50 +1,41 @@
 const $submitBtn = $('#submit-word-btn');
 const $userWord = $('#user-word');
 let correctAnswer = '';
-$('#seconds-remaining').text(60);
+
+const game = new BoggleGame();
+let words_submitted = 0;
+$('#seconds-remaining').text(game.duration);
 
 timeRemaining = parseInt($('#seconds-remaining').text());
+
 async function handleWordSubmit(evt) {
   evt.preventDefault();
-  console.log(timeRemaining);
-  timer();
-  console.log($userWord.val());
-  correctAnswer = await sendWord();
+  if (words_submitted === 0) {
+    game.timer();
+  }
+  words_submitted += 1;
+  correctAnswer = await game.sendWord();
   showAnswerMessage(correctAnswer);
   $userWord.val('');
 }
 
 $submitBtn.on('click', handleWordSubmit);
 
-let score = 0;
 if (localStorage.getItem('score') === null) {
-  score = 0;
-  $('#score').text(score);
+  game.score = 0;
+  $('#score').text(game.score);
 } else {
-  score = parseInt(localStorage.getItem('score'));
-  $('#score').text(score);
-}
-
-async function sendWord() {
-  const response = await axios({
-    method: 'post',
-    url: 'http://127.0.0.1:5000/user-word',
-    data: {
-      word: $userWord.val(),
-    },
-  });
-  console.log(response.data);
-  return response.data;
+  game.score = parseInt(localStorage.getItem('score'));
+  $('#score').text(game.score);
 }
 
 function showAnswerMessage(obj) {
   const { result } = obj;
-  console.log('Result: ' + result);
   if (result === 'ok') {
     // Show Correct, you earned 1 point
-    score += result.length;
-    localStorage.setItem('score', score);
-    $('#score').text(score);
+    game.score += result.length;
+    localStorage.setItem('score', game.score);
+    $('#score').text(game.score);
     $('#content').append(
       `<h2 class ="show-result">Great Job! You earned ${result.length} points</h2>`
     );
@@ -64,17 +55,12 @@ function showAnswerMessage(obj) {
   }, 5000);
 }
 
-const timer = function () {
-  const interval = setInterval(function () {
-    timeRemaining -= 1;
-    $('#seconds-remaining').text(timeRemaining);
-    if (timeRemaining === 0) {
-      clearInterval(interval);
-      $submitBtn.attr('disabled', true);
-    }
-  }, 1000);
-  // setTimeout(function () {
-  //   clearInterval(interval);
-  //   $submitBtn.attr('disabled', true);
-  // }, 60000);
-};
+// $('#new-game').on('click', function () {
+//   console.log('Clicked');
+//   words_submitted = 0;
+//   game.sendGameData();
+//   game.duration = 60;
+//   game.score = 0;
+//   $('#score').text(game.score);
+//   localStorage.setItem('score', game.score);
+// });

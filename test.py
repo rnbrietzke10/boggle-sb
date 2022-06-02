@@ -8,6 +8,7 @@ class FlaskTests(TestCase):
 
     # TODO -- write tests for every view function / feature!
     def test_home_route(self):
+        """Test home page for status code and ceratin HTML"""
         with app.test_client() as client:
             resp = client.get('/')
             html = resp.get_data(as_text=True)
