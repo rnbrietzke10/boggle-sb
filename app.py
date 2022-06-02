@@ -26,6 +26,8 @@ def home_page():
         ['W', 'D', 'X', 'T', 'H'],
         ['Z', 'X', 'Z', 'J', 'T']
     ]
+    Create board and save to session
+    Send template to client side.
     """
     board = boggle_game.make_board()
     session['board'] = board
@@ -34,15 +36,14 @@ def home_page():
 
 @app.route('/user-word', methods=['POST'])
 def user_word_check():
+    """Check if word is on board and send back response to client side"""
     word = request.get_json()['word']
     valid_word = boggle_game.check_valid_word(session['board'], word)
     return_data = {'result': valid_word}
-
     return jsonify(return_data)
 
 @app.route('/player-data', methods=['POST'])
 def player_data():
-    session['board'] = boggle_game.make_board()
+    """Update player highest score and times played"""
     player_info = request.get_json()
-    print(player_info)
     return redirect('/')
