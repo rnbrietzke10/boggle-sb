@@ -7,23 +7,33 @@ class BoggleGame {
     };
     this.score = 0;
   }
+  async sendGameData() {
+    const response = await axios({
+      method: "post",
+      url: "http://127.0.0.1:5000/player-data",
+      data: {
+        gameData: this.gameData(this.score),
+      },
+    });
+    return response.data;
+  }
 
   timer() {
     const interval = setInterval(function () {
       timeRemaining -= 1;
-      $('#seconds-remaining').text(timeRemaining);
+      $("#seconds-remaining").text(timeRemaining);
     }, 1000);
     setTimeout(function () {
       clearInterval(interval);
-      this.sendGameData();
-      $submitBtn.attr('disabled', true);
+      // await this.sendGameData();
+      $submitBtn.attr("disabled", true);
     }, 60000);
   }
 
   async sendWord() {
     const response = await axios({
-      method: 'post',
-      url: 'http://127.0.0.1:5000/user-word',
+      method: "post",
+      url: "http://127.0.0.1:5000/user-word",
       data: {
         word: $userWord.val(),
       },
@@ -32,22 +42,11 @@ class BoggleGame {
   }
 
   gameData(score) {
-    this.playerData['highScore'] =
-      score > this.playerData['highScore']
+    this.playerData["highScore"] =
+      score > this.playerData["highScore"]
         ? score
-        : this.playerData['highScore'];
-    this.playerData['timesPlayed'] = this.playerData['timesPlayed'] + 1;
+        : this.playerData["highScore"];
+    this.playerData["timesPlayed"] = this.playerData["timesPlayed"] + 1;
     return this.playerData;
-  }
-
-  async sendGameData() {
-    const response = await axios({
-      method: 'post',
-      url: 'http://127.0.0.1:5000/player-data',
-      data: {
-        gameData: this.gameData(this.score),
-      },
-    });
-    return response.data;
   }
 }
