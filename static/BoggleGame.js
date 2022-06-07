@@ -32,9 +32,9 @@ class BoggleGame {
 
   async sendWord() {
     const response = await axios({
-      method: "post",
+      method: "get",
       url: "http://127.0.0.1:5000/user-word",
-      data: {
+      params: {
         word: $userWord.val(),
       },
     });

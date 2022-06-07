@@ -34,14 +34,15 @@ def home_page():
 
     return render_template('home.html', board = session['board'])
 
-@app.route('/user-word', methods=['POST'])
+@app.route('/user-word')
 def user_word_check():
     """Check if word is on board and send back response to client side"""
-    print(request.args)
+    word = request.args['word']
+    print(request.args["word"])
     print(type(request.args))
-    print(request.get_json())
-    print(type(request.get_json()))
-    word = request.get_json()['word']
+    # print(request.get_json())
+    # print(type(request.get_json()))
+    # word = request.get_json()['word']
     valid_word = boggle_game.check_valid_word(session['board'], word)
     return_data = {'result': valid_word}
     return jsonify(return_data)
